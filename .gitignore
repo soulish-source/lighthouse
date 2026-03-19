@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-lock.yaml
+frontend/package-lock.json
+
+# Java / Maven
+backend/target/
+*.class
+
+# IDE
+.idea/
+.vscode/
