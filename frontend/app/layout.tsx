@@ -1,13 +1,16 @@
+import { AppShell } from '@/components/app-shell';
+import { ReactNode } from 'react';
+
 export const metadata = {
   title: 'Lighthouse',
-  description: 'Long-form web novel creation agent workspace'
+  description: 'Long-form web novel creation workspace'
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="zh-CN">
-      <body style={{ margin: 0, fontFamily: 'Inter, system-ui, sans-serif', background: '#0b1120', color: '#e5e7eb' }}>
-        {children}
+      <body style={{ margin: 0, fontFamily: 'Inter, system-ui, sans-serif' }}>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

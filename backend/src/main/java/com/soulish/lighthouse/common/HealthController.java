@@ -1,6 +1,5 @@
-package com.soulish.lighthouse;
+package com.soulish.lighthouse.common;
 
-import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,10 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController {
 
     @GetMapping("/health")
-    public Map<String, Object> health() {
-        return Map.of(
-                "status", "ok",
-                "service", "lighthouse-backend",
-                "domain", "long-form novel creation agent");
+    public ApiResponse<HealthPayload> health() {
+        return ApiResponse.ok(new HealthPayload("lighthouse-backend", "ok", "phase-1-foundation"));
     }
 }

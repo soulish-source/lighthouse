@@ -1,46 +1,47 @@
-const sections = [
-  {
-    title: '提纲中心',
-    description: '管理全书、分卷与章节提纲，维护主线与副线推进。'
-  },
-  {
-    title: '章节工作台',
-    description: '围绕当前章节装配相关人物状态、伏笔与时间线约束。'
-  },
-  {
-    title: '设定与记忆',
-    description: '沉淀人物、世界规则、动态状态，并将章节事实回写为长期记忆。'
-  },
-  {
-    title: '一致性检查',
-    description: '发现人物 OOC、时间错位、伏笔遗忘与设定冲突。'
-  }
-];
+import { BulletList, Card, Grid, Pill, SectionHeader } from '@/components/ui';
+import { activePipeline, kpis, projectSummary, workspaceModules } from '@/lib/mock-data';
 
 export default function HomePage() {
   return (
-    <main style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 24px 96px' }}>
-      <section style={{ marginBottom: 48 }}>
-        <div style={{ display: 'inline-block', padding: '6px 12px', borderRadius: 999, background: '#172554', color: '#bfdbfe', fontSize: 14 }}>
-          Lighthouse / Novel Creation Agent
-        </div>
-        <h1 style={{ fontSize: 52, lineHeight: 1.1, margin: '20px 0 16px' }}>
-          为长篇网文创作而设计的前后端分离 Agent 系统
-        </h1>
-        <p style={{ fontSize: 18, lineHeight: 1.7, color: '#cbd5e1', maxWidth: 780 }}>
-          面向提纲、章节、人物设定、伏笔、时间线与记忆回写的一体化创作工作台。
-          当前为初始化骨架，重点表达核心能力边界与未来扩展方向。
-        </p>
-      </section>
+    <div style={{ display: 'grid', gap: 18 }}>
+      <SectionHeader
+        eyebrow="项目概览"
+        title="不是聊天框，而是面向长篇创作资产的工作台。"
+        description={`${projectSummary.name} 把作品定位、提纲、章节、人物、伏笔、时间线与模型策略放进一个可持续维护的系统里，优先展示产品方向而不是单点生成能力。`}
+      />
 
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
-        {sections.map((section) => (
-          <article key={section.title} style={{ padding: 24, border: '1px solid #1e293b', borderRadius: 18, background: 'linear-gradient(180deg, #111827 0%, #0f172a 100%)' }}>
-            <h2 style={{ marginTop: 0, fontSize: 22 }}>{section.title}</h2>
-            <p style={{ marginBottom: 0, color: '#94a3b8', lineHeight: 1.7 }}>{section.description}</p>
-          </article>
+      <Grid>
+        {kpis.map((item) => (
+          <Card key={item.label} title={item.value} subtitle={item.label}>
+            <div style={{ color: '#94a3b8' }}>{item.detail}</div>
+          </Card>
         ))}
-      </section>
-    </main>
+      </Grid>
+
+      <Grid columns="1.2fr 0.8fr">
+        <Card title={projectSummary.name} subtitle={`${projectSummary.genre} · ${projectSummary.stage}`}>
+          <p style={{ marginTop: 0, color: '#cbd5e1', lineHeight: 1.8 }}>{projectSummary.premise}</p>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <Pill tone="accent">项目</Pill>
+            <Pill tone="accent">提纲</Pill>
+            <Pill tone="accent">章节</Pill>
+            <Pill tone="accent">记忆回写</Pill>
+            <Pill tone="accent">一致性审查</Pill>
+          </div>
+        </Card>
+
+        <Card title="当前可展示链路" subtitle="第一阶段工程关注表达清晰度与可扩展结构。">
+          <BulletList items={activePipeline} />
+        </Card>
+      </Grid>
+
+      <Grid>
+        {workspaceModules.map((module) => (
+          <Card key={module.title} title={module.title}>
+            <p style={{ margin: 0, color: '#cbd5e1', lineHeight: 1.7 }}>{module.description}</p>
+          </Card>
+        ))}
+      </Grid>
+    </div>
   );
 }
