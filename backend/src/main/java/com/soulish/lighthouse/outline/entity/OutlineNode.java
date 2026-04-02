@@ -1,6 +1,7 @@
 package com.soulish.lighthouse.outline.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,8 @@ import java.util.List;
 public class OutlineNode {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
     private String projectId;
