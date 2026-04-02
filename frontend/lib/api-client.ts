@@ -28,4 +28,22 @@ export const api = {
   createOutline: (dto: unknown) => request('/outlines', { method: 'POST', body: JSON.stringify(dto) }),
   updateOutline: (id: string, dto: unknown) => request(`/outlines/${id}`, { method: 'PUT', body: JSON.stringify(dto) }),
   deleteOutline: (id: string) => request(`/outlines/${id}`, { method: 'DELETE' }),
+
+  // Character
+  listCharacters: (projectId: string) => request(`/characters?projectId=${projectId}`),
+  createCharacter: (dto: unknown) => request('/characters', { method: 'POST', body: JSON.stringify(dto) }),
+  updateCharacter: (id: string, dto: unknown) => request(`/characters/${id}`, { method: 'PUT', body: JSON.stringify(dto) }),
+  deleteCharacter: (id: string) => request(`/characters/${id}`, { method: 'DELETE' }),
+
+  // Foreshadow
+  listForeshadows: (projectId: string) => request(`/foreshadows?projectId=${projectId}`),
+  createForeshadow: (dto: unknown) => request('/foreshadows', { method: 'POST', body: JSON.stringify(dto) }),
+  updateForeshadow: (id: string, dto: unknown) => request(`/foreshadows/${id}`, { method: 'PUT', body: JSON.stringify(dto) }),
+  deleteForeshadow: (id: string) => request(`/foreshadows/${id}`, { method: 'DELETE' }),
+
+  // Timeline
+  listTimelineEvents: (projectId: string) => request(`/timeline-events?projectId=${projectId}`),
+  createTimelineEvent: (dto: unknown) => request('/timeline-events', { method: 'POST', body: JSON.stringify(dto) }),
+  updateTimelineEvent: (id: string, dto: unknown) => request(`/timeline-events/${id}`, { method: 'PUT', body: JSON.stringify(dto) }),
+  deleteTimelineEvent: (id: string) => request(`/timeline-events/${id}`, { method: 'DELETE' }),
 };

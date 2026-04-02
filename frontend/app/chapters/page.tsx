@@ -1,25 +1,67 @@
+'use client';
+import { useEffect, useState } from 'react';
 import { Card, Grid, Pill, SectionHeader } from '@/components/ui';
-import { chapters } from '@/lib/mock-data';
+import { api } from '@/lib/api-client';
+
+interface ChapterData {
+  id: string;
+  title: string;
+  volumeTitle: string;
+  status: string;
+  pov: string;
+  targetWords: number;
+  currentWords: number;
+  updatedAt: string;
+  focusCharacters: string[];
+  relatedForeshadows: string[];
+}
+
+const STATUS_LABELS: Record<string, string> = {
+  PLANNED: '待规划',
+  DRAFTING: '草稿中',
+  REVIEW: '审查中',
+  PUBLISHED: '已发布',
+};
 
 export default function ChaptersPage() {
+  const [chapters, setChapters] = useState<ChapterData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (api.listChapters('demo-project') as Promise<ChapterData[]>)
+      .then(setChapters)
+      .catch(() => setChapters([]))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div style={{ display: 'grid', gap: 18 }}>
       <SectionHeader
         eyebrow="章节工作台"
         title="章节不是孤立文本，而是一个受约束的生产任务。"
-        description="这里应该把提纲目标、人物动态状态、上下文章节、伏笔和时间线一起装配给创作 Agent。当前先用 mock 数据表达工作台结构。"
+        description="从真实 API 加载章节数据。"
       />
-      <Grid>
-        {chapters.map((chapter) => (
-          <Card key={chapter.title} title={chapter.title} subtitle={`POV：${chapter.pov}`}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <Pill tone="accent">{chapter.status}</Pill>
-              <span style={{ color: '#94a3b8', fontSize: 14 }}>{chapter.progress}</span>
-            </div>
-            <p style={{ margin: 0, color: '#cbd5e1', lineHeight: 1.7 }}>{chapter.note}</p>
-          </Card>
-        ))}
-      </Grid>
+      {loading ? (
+        <div style={{ color: '#94a3b8' }}>加载中...</div>
+      ) : chapters.length === 0 ? (
+        <div style={{ color: '#94a3b8' }}>暂无章节，请先在后端创建。</div>
+      ) : (
+        <Grid>
+          {chapters.map((chapter) => (
+            <Card key={chapter.id} title={chapter.title} subtitle={`POV：${chapter.pov}`}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                <Pill tone="accent">{STATUS_LABELS[chapter.status] || chapter.status}</Pill>
+                <span style={{ color: '#94a3b8', fontSize: 14 }}>
+                  {chapter.currentWords} / {chapter.targetWords} 字
+                </span>
+              </div>
+              <div style={{ color: '#94a3b8', fontSize: 13 }}>
+                关联人物：{chapter.focusCharacters.join('、')}
+              </div>
+            </Card>
+          ))}
+        </Grid>
+      )}
     </div>
   );
 }
